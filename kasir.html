@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GameHub POS - Rental PS & Mini Cinema</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="kasir.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">🎮</div>
+            <div>
+                <strong>GameHub</strong>
+                <span>POS System</span>
+            </div>
+        </div>
+
+        <nav>
+            <button class="nav-btn active" data-page="dashboard">
+                <span>📊</span> Dashboard
+            </button>
+
+            <button class="nav-btn" data-page="rental">
+                <span>🎮</span> Rental PS
+            </button>
+
+            <button class="nav-btn" data-page="cinema">
+                <span>🎬</span> Mini Cinema
+            </button>
+
+            <button class="nav-btn" data-page="food">
+                <span>🍔</span> Makanan & Minuman
+            </button>
+
+            <button class="nav-btn" data-page="transactions">
+                <span>💳</span> Transaksi
+            </button>
+
+            <button class="nav-btn" data-page="reports">
+                <span>📈</span> Laporan
+            </button>
+
+            <button class="nav-btn" data-page="settings">
+                <span>⚙️</span> Pengaturan
+            </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <button id="themeBtn" class="theme-btn">
+                🌙 Mode Gelap
+            </button>
+
+            <div class="system-status">
+                <span class="status-dot"></span>
+                Sistem aktif
+            </div>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+
+            <div>
+                <h1 id="pageTitle">Dashboard</h1>
+                <p id="currentDate"></p>
+            </div>
+
+            <div class="topbar-right">
+                <div class="clock" id="clock">00:00:00</div>
+
+                <div class="owner-badge">
+                    👤 Kasir
+                </div>
+            </div>
+
+        </header>
+
+
+        <!-- DASHBOARD -->
+        <section class="page active" id="dashboard">
+
+            <div class="hero">
+                <div>
+                    <span class="hero-label">GAMEHUB POS</span>
+                    <h2>Kelola Rental PS & Cinema dengan mudah.</h2>
+                    <p>
+                        Semua transaksi tercatat otomatis dan pelanggan
+                        wajib melakukan pembayaran sebelum sesi dimulai.
+                    </p>
+                </div>
+
+                <div class="hero-icon">🎮</div>
+            </div>
+
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-icon blue">💰</div>
+                    <div>
+                        <span>Omzet Hari Ini</span>
+                        <strong id="todayIncome">Rp0</strong>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon green">🎮</div>
+                    <div>
+                        <span>Rental Aktif</span>
+                        <strong id="activeRental">0</strong>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon purple">🎬</div>
+                    <div>
+                        <span>Cinema Aktif</span>
+                        <strong id="activeCinema">0</strong>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon orange">🛒</div>
+                    <div>
+                        <span>Transaksi Hari Ini</span>
+                        <strong id="todayTransactions">0</strong>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-grid">
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <div>
+                            <h3>Sesi Aktif</h3>
+                            <p>Rental yang sedang berjalan</p>
+                        </div>
+                    </div>
+
+                    <div id="activeSessions" class="session-list"></div>
+                </div>
+
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <div>
+                            <h3>Transaksi Terbaru</h3>
+                            <p>Aktivitas pembayaran terakhir</p>
+                        </div>
+                    </div>
+
+                    <div id="recentTransactions"></div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RENTAL PS -->
+        <section class="page" id="rental">
+
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">RENTAL PLAYSTATION</span>
+                    <h2>Rental PS</h2>
+                    <p>Pembayaran wajib lunas sebelum bermain.</p>
+                </div>
+
+                <div class="price-info">
+                    <div>PS 3- 01</div>
+                    <strong id="ps3PriceView">Rp5.000/jam</strong>
+                </div>
+
+                <div class="price-info">
+                    <div>PS 4 - 01</div>
+                    <strong id="ps4PriceView">Rp9.000/jam</strong>
+                </div>
+            </div>
+
+
+            <div class="content-grid">
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h3>Mulai Rental Baru</h3>
+                            <p>Pastikan pembayaran sudah diterima.</p>
+                        </div>
+
+                        <span class="payment-required">
+                            🔒 WAJIB LUNAS
+                        </span>
+                    </div>
+
+
+                    <form id="rentalForm">
+
+                        <div class="form-grid">
+
+                            <label>
+                                Nama Pelanggan
+                                <input
+                                    id="rentalCustomer"
+                                    type="text"
+                                    placeholder="Contoh: Andi"
+                                    required
+                                >
+                            </label>
+
+                            <label>
+                                Nomor WhatsApp
+                                <input
+                                    id="rentalWhatsapp"
+                                    type="tel"
+                                    placeholder="08xxxxxxxxxx"
+                                >
+                            </label>
+
+                            <label>
+                                Jenis PS
+                                <select id="rentalType">
+                                    <option value="PS 3">PS 3 - 01</option>
+                                    <option value="PS 4">PS 4 - 01</option>
+                                </select>
+                            </label>
+
+                            <label>
+                                Jumlah Jam
+                                <input
+                                    id="rentalHours"
+                                    type="number"
+                                    min="1"
+                                    max="24"
+                                    value="1"
+                                    required
+                                >
+                            </label>
+
+                            <label>
+                                Mulai Jam
+                                <input
+                                    id="rentalStart"
+                                    type="datetime-local"
+                                    required
+                                >
+                            </label>
+
+                            <label>
+                                Selesai Jam
+                                <input
+                                    id="rentalEnd"
+                                    type="datetime-local"
+                                    readonly
+                                >
+                            </label>
+
+                            <label class="full">
+                                Metode Pembayaran
+                                <select id="rentalPayment" required></select>
+                            </label>
+
+                            <label>
+                                Uang Dibayar
+                                <input
+                                    id="rentalPaid"
+                                    type="number"
+                                    min="0"
+                                    placeholder="0"
+                                    required
+                                >
+                            </label>
+
+                            <label>
+                                Kembalian
+                                <input
+                                    id="rentalChange"
+                                    type="text"
+                                    value="Rp0"
+                                    readonly
+                                >
+                            </label>
+
+                        </div>
+
+
+                        <div class="payment-summary">
+
+                            <div>
+                                <span>Total Rental</span>
+                                <strong id="rentalTotal">Rp0</strong>
+                            </div>
+
+                            <div>
+                                <span>Status</span>
+                                <strong id="rentalPaymentStatus" class="unpaid">
+                                    BELUM LUNAS
+                                </strong>
+                            </div>
+
+                        </div>
+
+
+                        <button class="primary-btn large" type="submit">
+                            🔐 Bayar & Mulai Rental
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h3>Rental Aktif</h3>
+                            <p>Sesi yang sudah dibayar.</p>
+                        </div>
+                    </div>
+
+                    <div id="rentalSessions"></div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CINEMA -->
+        <section class="page" id="cinema">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="eyebrow">MINI CINEMA</span>
+                    <h2>Mini Cinema</h2>
+                    <p>Tiket harus dibayar sebelum menonton.</p>
+                </div>
+
+            </div>
+
+
+            <div class="content-grid">
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h3>Booking Cinema</h3>
+                            <p>Pembayaran dilakukan di awal.</p>
+                        </div>
+
+                        <span class="payment-required">
+                            🔒 WAJIB LUNAS
+                        </span>
+                    </div>
+
+
+                    <form id="cinemaForm">
+
+                        <div class="form-grid">
+
+                            <label>
+                                Nama Pelanggan
+                                <input
+                                    id="cinemaCustomer"
+                                    type="text"
+                                    placeholder="Nama pelanggan"
+                                    required
+                                >
+                            </label>
+
+                            <label>
+                                Nomor WhatsApp
+                                <input
+                                    id="cinemaWhatsapp"
+                                    type="tel"
+                                    placeholder="08xxxxxxxxxx"
+                                >
+                            </label>
+
+                            <label class="full">
+                                Judul Film
+                                <input
+                                    id="cinemaMovie"
+                                    type="text"
+                                    placeholder="Contoh: Film A"
+                                    required
+                                >
+                            </label>
+
+                            <label>
+                                Durasi Film
+                                <input
+                                    id="cinemaDuration"
+                                    type="number"
+                                    min="1"
+                                    value="120"
+                                    required
+                                >
+                            </label>
+
+                            <label>
+                                Jumlah Orang
+                                <input
+                                    id="cinemaPeople"
+                                    type="number"
+                                    min="1"
+                                    value="1"
+                                    required
+                                >
+                            </label>
+
+                            <label>
+                                Harga / Orang
+                                <input
+                                    id="cinemaPrice"
+                                    type="number"
+                                    min="0"
+                                    value="3000"
+                                    required
+                                >
+                            </label>
+
+                            <label>
+                                Mulai
+                                <input
+                                    id="cinemaStart"
+                                    type="datetime-local"
+                                    required
+                                >
+                            </label>
+
+                            <label>
+                                Selesai
+                                <input
+                                    id="cinemaEnd"
+                                    type="datetime-local"
+                                    readonly
+                                >
+                            </label>
+
+                            <label class="full">
+                                Metode Pembayaran
+                                <select id="cinemaPayment" required></select>
+                            </label>
+
+                            <label>
+                                Uang Dibayar
+                                <input
+                                    id="cinemaPaid"
+                                    type="number"
+                                    min="0"
+                                    placeholder="0"
+                                    required
+                                >
+                            </label>
+
+                            <label>
+                                Kembalian
+                                <input
+                                    id="cinemaChange"
+                                    type="text"
+                                    value="Rp0"
+                                    readonly
+                                >
+                            </label>
+
+                        </div>
+
+
+                        <div class="payment-summary">
+
+                            <div>
+                                <span>Total Tiket</span>
+                                <strong id="cinemaTotal">Rp0</strong>
+                            </div>
+
+                            <div>
+                                <span>Status</span>
+                                <strong id="cinemaPaymentStatus" class="unpaid">
+                                    BELUM LUNAS
+                                </strong>
+                            </div>
+
+                        </div>
+
+
+                        <button class="primary-btn large" type="submit">
+                            🎬 Bayar & Mulai Menonton
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h3>Cinema Aktif</h3>
+                            <p>Booking yang sudah dibayar.</p>
+                        </div>
+                    </div>
+
+                    <div id="cinemaSessions"></div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOD -->
+        <section class="page" id="food">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="eyebrow">FOOD & DRINK</span>
+                    <h2>Makanan & Minuman</h2>
+                    <p>Kelola produk dan penjualan.</p>
+                </div>
+
+                <button class="primary-btn" id="addFoodBtn">
+                    + Tambah Produk
+                </button>
+
+            </div>
+
+
+            <div class="food-toolbar">
+
+                <input
+                    id="foodSearch"
+                    type="search"
+                    placeholder="🔎 Cari makanan atau minuman..."
+                >
+
+                <select id="foodCategory">
+                    <option value="all">Semua kategori</option>
+                    <option value="Makanan">Makanan</option>
+                    <option value="Minuman">Minuman</option>
+                    <option value="Snack">Snack</option>
+                </select>
+
+            </div>
+
+
+            <div id="foodGrid" class="food-grid"></div>
+
+        </section>
+
+
+        <!-- TRANSACTIONS -->
+        <section class="page" id="transactions">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="eyebrow">PAYMENT HISTORY</span>
+                    <h2>Transaksi</h2>
+                    <p>Riwayat seluruh pembayaran.</p>
+                </div>
+
+                <button class="secondary-btn" id="exportBtn">
+                    📥 Export CSV
+                </button>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Jenis</th>
+                                <th>Pelanggan</th>
+                                <th>Total</th>
+                                <th>Pembayaran</th>
+                                <th>Dibayar</th>
+                                <th>Kembalian</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="transactionTable"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- REPORT -->
+        <section class="page" id="reports">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="eyebrow">BUSINESS REPORT</span>
+                    <h2>Laporan</h2>
+                    <p>Ringkasan pemasukan usaha.</p>
+                </div>
+
+            </div>
+
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-icon blue">💰</div>
+                    <div>
+                        <span>Total Omzet</span>
+                        <strong id="reportIncome">Rp0</strong>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon green">🎮</div>
+                    <div>
+                        <span>Pendapatan Rental</span>
+                        <strong id="reportRental">Rp0</strong>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon purple">🎬</div>
+                    <div>
+                        <span>Pendapatan Cinema</span>
+                        <strong id="reportCinema">Rp0</strong>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon orange">🍔</div>
+                    <div>
+                        <span>Pendapatan Food</span>
+                        <strong id="reportFood">Rp0</strong>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="panel-header">
+                    <div>
+                        <h3>Metode Pembayaran</h3>
+                        <p>Jumlah transaksi berdasarkan metode.</p>
+                    </div>
+                </div>
+
+                <div id="paymentReport" class="payment-report"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- SETTINGS -->
+        <section class="page" id="settings">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="eyebrow">SYSTEM SETTINGS</span>
+                    <h2>Pengaturan</h2>
+                    <p>Atur harga dan data aplikasi.</p>
+                </div>
+
+            </div>
+
+
+            <div class="content-grid">
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <h3>Harga Rental</h3>
+                    </div>
+
+                    <form id="settingsForm">
+
+                        <label>
+                            Harga PS 3 / Jam
+                            <input id="settingPS3" type="number" min="0">
+                        </label>
+
+                        <label>
+                            Harga PS 4 / Jam
+                            <input id="settingPS4" type="number" min="0">
+                        </label>
+
+                        <button class="primary-btn" type="submit">
+                            💾 Simpan Pengaturan
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+                <div class="panel danger-panel">
+
+                    <div class="panel-header">
+                        <h3>Data Aplikasi</h3>
+                    </div>
+
+                    <p>
+                        Hapus seluruh transaksi, sesi, dan data produk
+                        yang tersimpan di browser.
+                    </p>
+
+                    <button id="resetBtn" class="danger-btn">
+                        🗑️ Reset Semua Data
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- MODAL PRODUK -->
+<div class="modal" id="foodModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+            <h3>Tambah Produk</h3>
+            <button id="closeFoodModal">×</button>
+        </div>
+
+        <form id="foodForm">
+
+            <label>
+                Nama Produk
+                <input id="foodName" required>
+            </label>
+
+            <label>
+                Kategori
+                <select id="foodCategoryInput">
+                    <option>Makanan</option>
+                    <option>Minuman</option>
+                    <option>Snack</option>
+                </select>
+            </label>
+
+            <label>
+                Harga
+                <input id="foodPrice" type="number" min="0" required>
+            </label>
+
+            <label>
+                Stok
+                <input id="foodStock" type="number" min="0" required>
+            </label>
+
+            <button class="primary-btn large" type="submit">
+                Tambahkan Produk
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
+
+
+<script src="kasir.js"></script>
+
+</body>
+</html>
